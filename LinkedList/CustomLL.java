@@ -71,15 +71,68 @@ public class CustomLL{
         size++;
     }
 
+    public int deleteFirst(){
+        if (head==null){
+            System.out.println("Linked List is empty");
+            return -1;
+        }
+        int val = head.data;
+        head = head.next;
+        if (head==null) tail=null;
+        size--;
+        return val;
+    }
+
+    public int deleteLast(){
+        if (size<=1) return deleteFirst();
+        Node temp = head;
+        while (temp.next != tail){
+            temp = temp.next;
+        }
+        int val = tail.data;
+        temp.next = null;
+        tail = temp;
+        size--;
+        return val;
+    }
+
+    public int deleteAtIndex(int idx){
+        if (idx>=size || idx<0){
+            System.out.println("Index out of bounds");
+            return -1;
+        }
+
+        if (idx==0) return deleteFirst();
+        if (idx==size-1) return deleteLast();
+        Node temp = head;
+        while (idx>1){
+            temp = temp.next;
+            idx--;
+        }
+        Node target = temp.next;
+        int val = target.data;
+        temp.next = target.next;
+        size--;
+        return val;
+    }
+
 
     public static void main(String[] args) {
-        CustomLL list = new CustomLL();
-        list.insertFirst(20);
-        list.insertFirst(10);
-        list.insertLast(30);
-        list.insertLast(40);
+        CustomLL ll = new CustomLL();
+        ll.insertLast(10);
+        ll.insertLast(20);
+        ll.insertLast(30);
+        ll.insertLast(40);
+        ll.insertLast(50);
 
-        System.out.print("Custom Linked List: ");
-        list.display(); // Expected Output: 10 -> 20 -> 30 -> 40 -> END
+        System.out.print("Original List: ");
+        ll.display(); // 10 -> 20 -> 30 -> 40 -> 50 -> END
+
+        System.out.println("Deleted from First: " + ll.deleteFirst()); // 10
+        System.out.println("Deleted from Last:  " + ll.deleteLast());  // 50
+        System.out.println("Deleted from Idx 1: " + ll.deleteAtIndex(1)); // 30 (Kyunki list ab 20->30->40 bachi thi)
+
+        System.out.print("Final List: ");
+        ll.display(); // 20 -> 40 -> END
     }
 }
