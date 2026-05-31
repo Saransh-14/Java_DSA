@@ -1,5 +1,5 @@
 public class CustomLL{
-    //DEFINING NODE CLASS
+//DEFINING NODE CLASS
     private class Node{
         int data; 
         Node next;
@@ -17,8 +17,8 @@ public class CustomLL{
     public CustomLL(){
         this.size = 0;
     }
-
-    public void display(){
+//DISPLAYING THE LINKED LIST
+    public void display(Node head){
         Node temp = head;
         while (temp!=null){
             System.out.print(temp.data+" -> ");
@@ -26,7 +26,7 @@ public class CustomLL{
         }
         System.out.println("END");
     }
-
+//INSERTING NODE AT THE STARTING OF THE LINKED LIST
     public void insertFirst(int val){
         Node new_node = new Node(val);
         new_node.next = head;
@@ -34,7 +34,7 @@ public class CustomLL{
         if (tail==null) tail=head;
         size++;
     }
-
+//INSERTING NODE AT THE END OF THE LINKED LIST
     public void insertLast(int val){
         if (tail==null){
             insertFirst(val) ;
@@ -45,7 +45,7 @@ public class CustomLL{
         tail = new_node;
         size++;
     }
-
+//INSERTING NEW NODE AT THE GIVEN INDEX
     public void insertAtIdx(int val, int index){
         if (size<index || index<0){
             System.out.println("Index out of bounds");
@@ -70,7 +70,7 @@ public class CustomLL{
         temp.next = new_node;
         size++;
     }
-
+//DELETING FIRST NODE FROM THE LINKED LIST
     public int deleteFirst(){
         if (head==null){
             System.out.println("Linked List is empty");
@@ -82,7 +82,7 @@ public class CustomLL{
         size--;
         return val;
     }
-
+//DELETING THE LAST ELEMENT FROM THE LINKED LIST
     public int deleteLast(){
         if (size<=1) return deleteFirst();
         Node temp = head;
@@ -95,7 +95,7 @@ public class CustomLL{
         size--;
         return val;
     }
-
+//DELETING A NODE FORM THE GIVEN INDEX
     public int deleteAtIndex(int idx){
         if (idx>=size || idx<0){
             System.out.println("Index out of bounds");
@@ -115,24 +115,69 @@ public class CustomLL{
         size--;
         return val;
     }
+//REVERSING THE LINKED LIST
+    public Node reverseList(Node head){
+        Node prev = null;
+        Node curr = head;
+        while (curr != null){
+            Node next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head = prev;
+        return prev;
+    }
+//FINDING THE MIDDLE OF THE LINKED LIST
+    public Node findMiddle(Node head){
+        if (head==null || head.next==null){
+            return head;
+        }
+    
+        Node slow = head;
+        Node fast = head;
 
+        while (fast != null && fast.next != null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
 
+        return slow;
+    }
+//FLOYD'S CYCLE FINDING ALGORITHM
+    public boolean findCycle(Node head){
+        if (head==null || head.next==null) return false;
+        Node fast = head;
+        Node slow = head;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+
+            if (slow==fast) return true;
+        }
+        return false;
+    }
     public static void main(String[] args) {
         CustomLL ll = new CustomLL();
         ll.insertLast(10);
         ll.insertLast(20);
         ll.insertLast(30);
-        ll.insertLast(40);
-        ll.insertLast(50);
+        ll.insertLast(38);
+        ll.insertLast(43);
+        ll.insertLast(48);
+        // ll.insertLast(50);
+        // ll.insertLast(56);
 
         System.out.print("Original List: ");
-        ll.display(); // 10 -> 20 -> 30 -> 40 -> 50 -> END
+        ll.display(ll.head); // 10 -> 20 -> 30 -> 40 -> 50 -> END
 
-        System.out.println("Deleted from First: " + ll.deleteFirst()); // 10
-        System.out.println("Deleted from Last:  " + ll.deleteLast());  // 50
-        System.out.println("Deleted from Idx 1: " + ll.deleteAtIndex(1)); // 30 (Kyunki list ab 20->30->40 bachi thi)
+        // System.out.println("Deleted from First: " + ll.deleteFirst()); // 10
+        // System.out.println("Deleted from Last:  " + ll.deleteLast());  // 50
+        // System.out.println("Deleted from Idx 1: " + ll.deleteAtIndex(1)); // 30 (Kyunki list ab 20->30->40 bachi thi)
 
         System.out.print("Final List: ");
-        ll.display(); // 20 -> 40 -> END
+        // System.out.println("Middle Node: "+ll.findMiddle(ll.head).data); // 20 -> 40 -> END
+        ll.display(ll.reverseList(ll.head)); // 10 -> 20 -> 30 -> 40 -> 50 -> END
+        
     }
 }
