@@ -184,6 +184,8 @@ public class CustomLL{
 
         return dummy.next;
     }
+
+//MAIN METHOD
     public static void main(String[] args) {
         CustomLL list1 = new CustomLL();
         list1.insertLast(1);
