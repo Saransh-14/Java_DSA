@@ -157,27 +157,55 @@ public class CustomLL{
         }
         return false;
     }
-    public static void main(String[] args) {
-        CustomLL ll = new CustomLL();
-        ll.insertLast(10);
-        ll.insertLast(20);
-        ll.insertLast(30);
-        ll.insertLast(38);
-        ll.insertLast(43);
-        ll.insertLast(48);
-        // ll.insertLast(50);
-        // ll.insertLast(56);
 
-        System.out.print("Original List: ");
-        ll.display(ll.head); // 10 -> 20 -> 30 -> 40 -> 50 -> END
+//MERGING TWO SORTED LINKED LIST TOGETHER USING A DUMMY NODE
+    public Node mergeList(Node head1, Node head2){
+        Node dummy = new Node(-1);
+        Node tail = dummy;
+        Node p1 = head1, p2 = head2;
+        while (p1 != null && p2 != null){
+            if (p1.data <= p2.data){
+                tail.next = p1;
+                p1 = p1.next;
+            }
+            else {
+                tail.next = p2;
+                p2 = p2.next;
+            }
+            tail = tail.next;
+        }
 
-        // System.out.println("Deleted from First: " + ll.deleteFirst()); // 10
-        // System.out.println("Deleted from Last:  " + ll.deleteLast());  // 50
-        // System.out.println("Deleted from Idx 1: " + ll.deleteAtIndex(1)); // 30 (Kyunki list ab 20->30->40 bachi thi)
+        if (p1 != null){
+            tail.next = p1;
+        }
+        else {
+            tail.next = p2;
+        }
 
-        System.out.print("Final List: ");
-        // System.out.println("Middle Node: "+ll.findMiddle(ll.head).data); // 20 -> 40 -> END
-        ll.display(ll.reverseList(ll.head)); // 10 -> 20 -> 30 -> 40 -> 50 -> END
-        
+        return dummy.next;
     }
+    public static void main(String[] args) {
+        CustomLL list1 = new CustomLL();
+        list1.insertLast(1);
+        list1.insertLast(3);
+        list1.insertLast(5);
+
+        CustomLL list2 = new CustomLL();
+        list2.insertLast(2);
+        list2.insertLast(4);
+        list2.insertLast(6);
+
+        System.out.print("List 1: "); 
+        list1.display(list1.head); // 1 -> 3 -> 5 -> END
+        System.out.print("List 2: "); 
+        list2.display(list2.head); // 2 -> 4 -> 6 -> END
+
+        CustomLL resultList = new CustomLL();
+        // mergeList call kiya aur return wale head ko resultList ke head mein daal diya
+        resultList.head = resultList.mergeList(list1.head, list2.head);
+
+        System.out.print("Merged Sorted List: ");
+        resultList.display(resultList.head); // Expected Output: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> END
+    }
+    
 }
