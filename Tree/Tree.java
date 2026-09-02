@@ -1,4 +1,4 @@
-public class tree{
+public class Tree{
     static class Node{
         int data;
         Node left;
